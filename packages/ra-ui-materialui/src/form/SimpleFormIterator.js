@@ -2,6 +2,7 @@ import React, { Children, cloneElement, Component } from 'react';
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import get from 'lodash/get';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -88,8 +89,12 @@ export class SimpleFormIterator extends Component {
             meta: { error, submitFailed },
             record,
             resource,
+            source,
             translate,
+            disableAdd,
+            disableRemove,
         } = this.props;
+        const records = get(record, source);
         return fields ? (
             <ul className={classes.root}>
                 {submitFailed && error && <span>{error}</span>}
@@ -110,46 +115,58 @@ export class SimpleFormIterator extends Component {
                                 <section className={classes.form}>
                                     {Children.map(children, input => (
                                         <FormInput
-                                            basePath={basePath}
+                                            basePath={
+                                                input.props.basePath || basePath
+                                            }
                                             input={cloneElement(input, {
-                                                source: `${member}.${input.props
-                                                    .source}`,
+                                                source: `${member}.${
+                                                    input.props.source
+                                                }`,
                                                 label:
                                                     input.props.label ||
                                                     input.props.source,
                                             })}
-                                            record={record}
+                                            record={records && records[index]}
                                             resource={resource}
                                         />
                                     ))}
                                 </section>
-                                <span className={classes.action}>
-                                    <Button
-                                        size="small"
-                                        onClick={this.removeField(index)}
-                                    >
-                                        <CloseIcon
-                                            className={classes.leftIcon}
-                                        />
-                                        {translate('ra.action.remove')}
-                                    </Button>
-                                </span>
+                                {!disableRemove && (
+                                    <span className={classes.action}>
+                                        <Button
+                                            size="small"
+                                            onClick={this.removeField(index)}
+                                        >
+                                            <CloseIcon
+                                                className={classes.leftIcon}
+                                            />
+                                            {translate('ra.action.remove')}
+                                        </Button>
+                                    </span>
+                                )}
                             </li>
                         </CSSTransition>
                     ))}
                 </TransitionGroup>
-                <li className={classes.line}>
-                    <span className={classes.action}>
-                        <Button size="small" onClick={this.addField}>
-                            <AddIcon className={classes.leftIcon} />
-                            {translate('ra.action.add')}
-                        </Button>
-                    </span>
-                </li>
+                {!disableAdd && (
+                    <li className={classes.line}>
+                        <span className={classes.action}>
+                            <Button size="small" onClick={this.addField}>
+                                <AddIcon className={classes.leftIcon} />
+                                {translate('ra.action.add')}
+                            </Button>
+                        </span>
+                    </li>
+                )}
             </ul>
         ) : null;
     }
 }
+
+SimpleFormIterator.defaultProps = {
+    disableAdd: false,
+    disableRemove: false,
+};
 
 SimpleFormIterator.propTypes = {
     basePath: PropTypes.string,
@@ -159,8 +176,14 @@ SimpleFormIterator.propTypes = {
     fields: PropTypes.object,
     meta: PropTypes.object,
     record: PropTypes.object,
+    source: PropTypes.string,
     resource: PropTypes.string,
     translate: PropTypes.func,
+    disableAdd: PropTypes.bool,
+    disableRemove: PropTypes.bool,
 };
 
-export default compose(translate, withStyles(styles))(SimpleFormIterator);
+export default compose(
+    translate,
+    withStyles(styles)
+)(SimpleFormIterator);

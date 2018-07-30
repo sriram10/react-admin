@@ -89,6 +89,7 @@ const CommentGrid = withStyles(listStyles)(
                 <Grid item key={id} sm={12} md={6} lg={4}>
                     <Card className={classes.card}>
                         <CardHeader
+                            className="comment"
                             title={
                                 <TextField
                                     record={data[id]}
@@ -151,7 +152,8 @@ const CommentMobileList = props => (
         primaryText={record => record.author.name}
         secondaryText={record => record.body}
         tertiaryText={record =>
-            new Date(record.created_at).toLocaleDateString()}
+            new Date(record.created_at).toLocaleDateString()
+        }
         leftAvatar={() => <PersonIcon />}
         {...props}
     />

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 import compose from 'recompose/compose';
 import { createSelector } from 'reselect';
+import isEqual from 'lodash/isEqual';
 
 import { crudGetOne, crudGetMatching } from '../../actions/dataActions';
 import {
@@ -99,8 +100,7 @@ export class ReferenceInputController extends Component {
     constructor(props) {
         super(props);
         const { perPage, sort, filter } = props;
-        // stored as a property rather than state because we don't want redraw of async updates
-        this.params = { pagination: { page: 1, perPage }, sort, filter };
+        this.state = { pagination: { page: 1, perPage }, sort, filter };
         this.debouncedSetFilter = debounce(this.setFilter.bind(this), 500);
     }
 
@@ -113,26 +113,32 @@ export class ReferenceInputController extends Component {
             this.fetchReferenceAndOptions(nextProps);
         } else if (this.props.input.value !== nextProps.input.value) {
             this.fetchReference(nextProps);
+        } else if (
+            !isEqual(nextProps.filter, this.props.filter) ||
+            !isEqual(nextProps.sort, this.props.sort) ||
+            nextProps.perPage !== this.props.perPage
+        ) {
+            this.fetchOptions(nextProps);
         }
     }
 
     setFilter = filter => {
-        if (filter !== this.params.filter) {
-            this.params.filter = this.props.filterToQuery(filter);
+        if (filter !== this.state.filter) {
+            this.setState({ filter: this.props.filterToQuery(filter) });
             this.fetchOptions();
         }
     };
 
     setPagination = pagination => {
-        if (pagination !== this.params.pagination) {
-            this.params.pagination = pagination;
+        if (pagination !== this.state.pagination) {
+            this.setState({ pagination });
             this.fetchOptions();
         }
     };
 
     setSort = sort => {
-        if (sort !== this.params.sort) {
-            this.params.sort = sort;
+        if (sort !== this.state.sort) {
+            this.setState({ sort });
             this.fetchOptions();
         }
     };
@@ -154,7 +160,7 @@ export class ReferenceInputController extends Component {
             resource,
             source,
         } = props;
-        const { pagination, sort, filter } = this.params;
+        const { pagination, sort, filter } = this.state;
 
         crudGetMatching(
             reference,
@@ -179,6 +185,7 @@ export class ReferenceInputController extends Component {
             children,
             translate,
         } = this.props;
+        const { pagination, sort, filter } = this.state;
 
         const dataStatus = getDataStatus({
             input,
@@ -192,8 +199,11 @@ export class ReferenceInputController extends Component {
             error: dataStatus.error,
             isLoading: dataStatus.waiting,
             onChange,
+            filter,
             setFilter: this.debouncedSetFilter,
+            pagination,
             setPagination: this.setPagination,
+            sort,
             setSort: this.setSort,
             warning: dataStatus.warning,
         });
@@ -260,10 +270,13 @@ const makeMapStateToProps = () =>
 
 const EnhancedReferenceInputController = compose(
     translate,
-    connect(makeMapStateToProps(), {
-        crudGetOne,
-        crudGetMatching,
-    })
+    connect(
+        makeMapStateToProps(),
+        {
+            crudGetOne,
+            crudGetMatching,
+        }
+    )
 )(ReferenceInputController);
 
 EnhancedReferenceInputController.defaultProps = {

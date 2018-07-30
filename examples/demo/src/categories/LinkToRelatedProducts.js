@@ -24,6 +24,8 @@ const LinkToRelatedProducts = ({ classes, record, translate }) => (
                 search: stringify({
                     page: 1,
                     perPage: 25,
+                    sort: 'id',
+                    order: 'DESC',
                     filter: JSON.stringify({ category_id: record.id }),
                 }),
             }}
@@ -35,5 +37,8 @@ const LinkToRelatedProducts = ({ classes, record, translate }) => (
     </Button>
 );
 
-const enhance = compose(withStyles(styles), translate);
+const enhance = compose(
+    withStyles(styles),
+    translate
+);
 export default enhance(LinkToRelatedProducts);

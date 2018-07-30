@@ -35,7 +35,7 @@ export const CRUD_GET_ONE_LOADING = 'RA/CRUD_GET_ONE_LOADING';
 export const CRUD_GET_ONE_FAILURE = 'RA/CRUD_GET_ONE_FAILURE';
 export const CRUD_GET_ONE_SUCCESS = 'RA/CRUD_GET_ONE_SUCCESS';
 
-export const crudGetOne = (resource, id, basePath) => ({
+export const crudGetOne = (resource, id, basePath, refresh = true) => ({
     type: CRUD_GET_ONE,
     payload: { id },
     meta: {
@@ -48,7 +48,7 @@ export const crudGetOne = (resource, id, basePath) => ({
                 level: 'warning',
             },
             redirectTo: 'list',
-            refresh: true,
+            refresh,
         },
     },
 });
@@ -80,7 +80,6 @@ export const crudCreate = (resource, data, basePath, redirectTo = 'edit') => ({
                 body: 'ra.notification.http_error',
                 level: 'warning',
             },
-            refresh: true,
         },
     },
 });
@@ -120,7 +119,6 @@ export const crudUpdate = (
                 body: 'ra.notification.http_error',
                 level: 'warning',
             },
-            refresh: true,
         },
     },
 });
@@ -161,7 +159,6 @@ export const crudUpdateMany = (
                 body: 'ra.notification.http_error',
                 level: 'warning',
             },
-            refresh: true,
         },
     },
 });
@@ -200,7 +197,6 @@ export const crudDelete = (
                 body: 'ra.notification.http_error',
                 level: 'warning',
             },
-            refresh: true,
         },
     },
 });
@@ -234,7 +230,6 @@ export const crudDeleteMany = (resource, ids, basePath, refresh = true) => ({
                 body: 'ra.notification.http_error',
                 level: 'warning',
             },
-            refresh: true,
         },
     },
 });

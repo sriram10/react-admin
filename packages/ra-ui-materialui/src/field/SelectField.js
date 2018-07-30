@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import pure from 'recompose/pure';
 import compose from 'recompose/compose';
 import { translate } from 'ra-core';
+import Typography from '@material-ui/core/Typography';
 
 import sanitizeRestProps from './sanitizeRestProps';
 
@@ -83,14 +84,19 @@ export const SelectField = ({
     const choiceName = React.isValidElement(optionText) // eslint-disable-line no-nested-ternary
         ? React.cloneElement(optionText, { record: choice })
         : typeof optionText === 'function'
-          ? optionText(choice)
-          : choice[optionText];
+            ? optionText(choice)
+            : choice[optionText];
     return (
-        <span className={className} {...sanitizeRestProps(rest)}>
+        <Typography
+            component="span"
+            body1="body1"
+            className={className}
+            {...sanitizeRestProps(rest)}
+        >
             {translateChoice
                 ? translate(choiceName, { _: choiceName })
                 : choiceName}
-        </span>
+        </Typography>
     );
 };
 
@@ -110,6 +116,7 @@ SelectField.propTypes = {
     optionValue: PropTypes.string.isRequired,
     resource: PropTypes.string,
     record: PropTypes.object,
+    sortBy: PropTypes.string,
     source: PropTypes.string.isRequired,
     translate: PropTypes.func.isRequired,
     translateChoice: PropTypes.bool.isRequired,
@@ -122,7 +129,10 @@ SelectField.defaultProps = {
     translateChoice: true,
 };
 
-const enhance = compose(pure, translate);
+const enhance = compose(
+    pure,
+    translate
+);
 
 const EnhancedSelectField = enhance(SelectField);
 

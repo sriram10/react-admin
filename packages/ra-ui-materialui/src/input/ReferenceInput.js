@@ -54,6 +54,7 @@ export const ReferenceInputView = ({
     className,
     error,
     input,
+    isRequired,
     isLoading,
     label,
     meta,
@@ -74,6 +75,7 @@ export const ReferenceInputView = ({
                 source={source}
                 resource={resource}
                 className={className}
+                isRequired={isRequired}
             >
                 <LinearProgress />
             </Labeled>
@@ -89,6 +91,7 @@ export const ReferenceInputView = ({
         classes,
         className,
         input,
+        isRequired,
         label,
         resource,
         meta: {
@@ -257,6 +260,9 @@ ReferenceInput.defaultProps = {
     sort: { field: 'id', order: 'DESC' },
 };
 
-const EnhancedReferenceInput = compose(addField, translate)(ReferenceInput);
+const EnhancedReferenceInput = compose(
+    addField,
+    translate
+)(ReferenceInput);
 
 export default EnhancedReferenceInput;

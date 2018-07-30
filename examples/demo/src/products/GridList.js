@@ -3,7 +3,10 @@ import MuiGridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { withStyles } from '@material-ui/core/styles';
-import { NumberField, EditButton } from 'react-admin';
+import IconButton from '@material-ui/core/IconButton';
+import ContentCreate from '@material-ui/icons/Create';
+import { NumberField, Link } from 'react-admin';
+import { linkToRecord } from 'ra-core';
 
 const styles = {
     root: {
@@ -17,8 +20,12 @@ const styles = {
         background:
             'linear-gradient(to top, rgba(0,0,0,0.8) 0%,rgba(0,0,0,0.4) 70%,rgba(0,0,0,0) 100%)',
     },
+    price: {
+        display: 'inline',
+        fontSize: '1em',
+    },
     link: {
-        color: 'white',
+        color: '#fff',
     },
 };
 
@@ -34,27 +41,26 @@ const GridList = ({ classes, ids, data, basePath }) => (
                         subtitle={
                             <span>
                                 {data[id].width}x{data[id].height},{' '}
-                                <b>
-                                    <NumberField
-                                        source="price"
-                                        record={data[id]}
-                                        options={{
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        }}
-                                    />
-                                </b>
+                                <NumberField
+                                    className={classes.price}
+                                    source="price"
+                                    record={data[id]}
+                                    color="inherit"
+                                    options={{
+                                        style: 'currency',
+                                        currency: 'USD',
+                                    }}
+                                />
                             </span>
                         }
                         actionIcon={
-                            <EditButton
-                                basePath={basePath}
-                                record={data[id]}
-                                label=""
-                                classes={{
-                                    button: classes.link,
-                                }}
-                            />
+                            <IconButton
+                                to={linkToRecord(basePath, data[id].id)}
+                                className={classes.link}
+                                component={Link}
+                            >
+                                <ContentCreate />
+                            </IconButton>
                         }
                     />
                 </GridListTile>

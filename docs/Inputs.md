@@ -67,12 +67,12 @@ Then you can display a text input to edit the author first name as follows:
 To edit arrays of data embedded inside a record, `<ArrayInput>` creates a list of sub-forms. 
 
 ```jsx
-import { ArrayInput, SimpleFormIterator, DateInput, UrlInput } from 'react-admin';
+import { ArrayInput, SimpleFormIterator, DateInput, TextInput } from 'react-admin';
 
 <ArrayInput source="backlinks">
     <SimpleFormIterator>
         <DateInput source="date" />
-        <UrlInput source="url" />
+        <TextInput source="url" />
     </SimpleFormIterator>
 </ArrayInput>
 ```
@@ -98,6 +98,19 @@ import { ArrayInput, SimpleFormIterator, DateInput, UrlInput } from 'react-admin
 ```
 
 `<ArrayInput>` expects a single child, which must be a *form iterator* component. A form iterator is a component accepting a `fields` object as passed by [redux-form's `<FieldArray>` component](https://redux-form.com/7.3.0/examples/fieldarrays/), and defining a layout for an array of fields. For instance, the `<SimpleFormIterator>` component displays an array of fields in an unordered list (`<ul>`), one sub-form by list item (`<li>`). It also provides controls for adding and removing a sub-record (a backlink in this example).
+
+You can pass `disableAdd` and `disableRemove` as props of `SimpleFormIterator`, to disable `ADD` and `REMOVE` button respectively. Default value of both is `false`.
+
+```jsx
+import { ArrayInput, SimpleFormIterator, DateInput, TextInput } from 'react-admin';
+
+<ArrayInput source="backlinks">
+    <SimpleFormIterator disableRemove >
+        <DateInput source="date" />
+        <TextInput source="url" />
+    </SimpleFormIterator>
+</ArrayInput>
+```
 
 ## `<AutocompleteInput>`
 
@@ -653,7 +666,7 @@ You can tweak how this component fetches the possible values using the `perPage`
 
 ## `<ReferenceInput>`
 
-Use `<ReferenceInput>` for foreign-key values, i.e. to let users choose a value from another REST endpoint. This component fetches the possible values in the reference resource (using the `GET_LIST` REST method) and the referenced record (using the `GET_ONE` REST method), then delegates rendering to a subcomponent, to which it passes the possible choices as the `choices` attribute.
+Use `<ReferenceInput>` for foreign-key values, for instance, to edit the `post_id` of a `comment` resource. This component fetches the possible values in the reference resource (using the `GET_LIST` REST method) and the referenced record (using the `GET_ONE` REST method), then delegates rendering to a subcomponent, to which it passes the possible choices as the `choices` attribute.
 
 This means you can use `<ReferenceInput>` with any of [`<SelectInput>`](#selectinput), [`<AutocompleteInput>`](#autocompleteinput), or [`<RadioButtonGroupInput>`](#radiobuttongroupinput), or even with the component of your choice, provided it supports the `choices` attribute.
 
@@ -734,7 +747,7 @@ You can tweak how this component fetches the possible values using the `perPage`
 ```
 {% endraw %}
 
-The enclosed component may further filter results (that's the case, for instance, for `<AutocompleteInput>`). ReferenceInput passes a `setFilter` function as prop to its child component. It uses the value to create a filter for the query - by default `{ q: [searchText] }`. You can customize the mapping
+The child component may further filter results (that's the case, for instance, for `<AutocompleteInput>`). ReferenceInput passes a `setFilter` function as prop to its child component. It uses the value to create a filter for the query - by default `{ q: [searchText] }`. You can customize the mapping
 `searchText => searchQuery` by setting a custom `filterToQuery` function prop:
 
 ```jsx
@@ -745,7 +758,19 @@ The enclosed component may further filter results (that's the case, for instance
     <SelectInput optionText="title" />
 </ReferenceInput>
 ```
-  
+
+The child component receives the following props from `<ReferenceInput>`:
+
+- `isLoading`: whether the request for possible values is loading or not
+- `filter`: the current filter of the request for possible values. Defaults to `{}`.
+- `pagination`: the current pagination of the request for possible values. Defaults to `{ page: 1, perPage: 25 }`.
+- `sort`: the current sorting of the request for possible values. Defaults to `{ field: 'id', order: 'DESC' }`.
+- `error`: the error message if the form validation failed for that input
+- `warning`: the warning message if the form validation failed for that input
+- `onChange`: function to call when the value changes
+- `setFilter`: function to call to update the filter of the request for possible values
+- `setPagination`: : function to call to update the pagination of the request for possible values
+- `setSort`: function to call to update the sorting of the request for possible values
 
 ## `<RichTextInput>`
 
@@ -1030,8 +1055,9 @@ const dateParser = v => {
 
 You can find components for react-admin in third-party repositories.
 
-* [dreinke/aor-color-input](https://github.com/dreinke/aor-color-input): a color input using [React Color](http://casesandberg.github.io/react-color/), a collection of color pickers.
+* [vascofg/react-admin-color-input](https://github.com/vascofg/react-admin-color-input): a color input using [React Color](http://casesandberg.github.io/react-color/), a collection of color pickers.
 * [LoicMahieu/aor-tinymce-input](https://github.com/LoicMahieu/aor-tinymce-input): a TinyMCE component, useful for editing HTML
+* [vascofg/react-admin-date-inputs](https://github.com/vascofg/react-admin-date-inputs): a collection of Date Inputs, based on [material-ui-pickers](https://material-ui-pickers.firebaseapp.com/)
 
 ## Writing Your Own Input Component
 

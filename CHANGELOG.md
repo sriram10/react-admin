@@ -1,10 +1,105 @@
 # Changelog
 
+## v2.1.4
+
+* Fix link color in `<ReferenceField>` ([fzaninotto](https://github.com/fzaninotto))
+* Fix form does not display data when coming from another form ([fzaninotto](https://github.com/fzaninotto))
+* Revert Fix form resetting when a input with defaultValue is dynamically added ([fzaninotto](https://github.com/fzaninotto))
+* Add link to related post from Comment edit view in Simple example ([fzaninotto](https://github.com/fzaninotto))
+
+## v2.1.3
+
+* Fix `<ArrayInput>` documentation mentions non-existing `UrlInput` component ([AkselsLedins](https://github.com/AkselsLedins))
+* Fix `<ReferenceInput>` infinite loop on missing reference ([djhi](https://github.com/djhi))
+* Fix `Reference` inputs do not update when their props change from outside ([djhi](https://github.com/djhi))
+* Fix makefile does not build `ra-data-fakerest` package ([djhi](https://github.com/djhi))
+* Fix `record` prop value in `<SimpleFormIterator>` children ([fzaninotto](https://github.com/fzaninotto))
+* Fix `fetchJson` util `undefined Buffer` error ([fzaninotto](https://github.com/fzaninotto))
+* Fix form keeps values after navigation ([djhi](https://github.com/djhi))
+* Fix Theme doesn't apply to `Fields` ([djhi](https://github.com/djhi)) 
+* Fix optimistic delete in `<List>` ([djhi](https://github.com/djhi))
+* Fix `filterDefaultValues` is shared accross resources ([djhi](https://github.com/djhi))
+* Make contributions easier for Windows users by moving most scripting logic from `make` to `npm` ([djhi](https://github.com/djhi))
+
+## v2.1.2
+
+* Fix duplicated block in `CreateEdit` doc ([fzaninotto](https://github.com/fzaninotto))
+* Fix submit on enter when `submitOnEnter` is false ([djhi](https://github.com/djhi))
+* Fix form resetting when a input with `defaultValue` is dynamically added ([djhi](https://github.com/djhi))
+* Fix validators memoization ([Bnaya](https://github.com/Bnaya))
+* Add Chinese translation ([chen4w](https://github.com/chen4w))
+* Add API Platform Admin and the JSON-LD Data Provider to the `Ecosystem` doc ([dunglas](https://github.com/dunglas))
+
+## v2.1.1
+
+* Fix FormInput not passing `resource` to `Labeled` inputs ([djhi](https://github.com/djhi))
+* Add documentaton on how to prefill a `<Create>` form based on another record ([fzaninotto](https://github.com/fzaninotto))
+* Add polish translations ([tskorupka](https://github.com/tskorupka))
+* Add documentation on tabs routing ([djhi](https://github.com/djhi))
+
+## v2.1.0
+
+* [`TabbedForm`, `TabbedShowLayout`] Add routing support for tab navigation ([djhi](https://github.com/djhi))
+* [`SimpleForm`, `TabbedForm`] Add ability to customize the redux form ([djhi](https://github.com/djhi))
+* [`ReferenceField`] Add optional `sortBy` prop to allow sorting by another field than `id` ([ArneZsng](https://github.com/ArneZsng))
+* [`SaveButton`, `SimpleForm`, `Tabbedform`] Add support for function as `redirect` value ([fzaninotto](https://github.com/fzaninotto))
+* [`RichTextInput`] Add validation support ([fzaninotto](https://github.com/fzaninotto))
+* [`ReferenceInput`] Inject `sort`, `pagination`, and `filters` props to the child component ([fzaninotto](https://github.com/fzaninotto))
+* [`Layout`] Add ability to customize sub components (menu, appbar, notification) ([fzaninotto](https://github.com/fzaninotto))
+* [`ArrayInput`] Add `allowAdd` & `allowRemove` attribute, to hide + and - buttons ([ashim](https://github.com/ashim))
+* [`ra-data-graphql-simple`] Fix documentation ([djhi](https://github.com/djhi))
+* [`LongTextInput`] Fix UI when used inside a `<TabbedForm>` ([fzaninotto](https://github.com/fzaninotto))
+* [Refactoring] Remove necessity to use CSS loader in `ra-input-rich-text` ([fzaninotto](https://github.com/fzaninotto))
+* [Refactoring] Manage form saving state inside Form components ([djhi](https://github.com/djhi))
+* [Refactoring] Migrate e2e tests to Cypress ([djhi](https://github.com/djhi))
+* [Refactoring] Move the URL parsing responsibility from View controllers to `<Resource>` ([djhi](https://github.com/djhi))
+* [Dependencies] Upgrade to `material-ui` ^1.0.0, upgrade examples to `material-ui` 1.2.1 ([fzaninotto](https://github.com/fzaninotto))
+* [Dependencies] Upgrade to `prettier` 1.13 ([fzaninotto](https://github.com/fzaninotto))
+
+## v2.0.4
+
+* Add documentation for icon format restriction in `<MenuItemLink>` ([fzaninotto](https://github.com/fzaninotto))
+* Add `required` to the `currenSort` propType in `<Datagrid>`, to avoid unexpected errors ([alexicum](https://github.com/alexicum))
+* Add Portuguese translation ([marquesgabriel](https://github.com/marquesgabriel))
+* Add Ukrainian translation ([koresar](https://github.com/koresar))
+* Add documentation about custom path as the `redirect` prop on Create/Edit ([djhi](https://github.com/djhi))
+* Add mention of `react-admin-color-input` and `react-admin-date-inputs` in Ecosystem doc ([vascofg](https://github.com/vascofg))
+* Fix style overriding documentation for `<Datagrid>` ([fzaninotto](https://github.com/fzaninotto))
+* Fix broken link in `<Admin>` documentation ([fzaninotto](https://github.com/fzaninotto))
+* Fix refresh in pessimistic mode prevents server-side validation ([fzaninotto](https://github.com/fzaninotto))
+* Fix `fullWidth` warning when using `<Labeled>` ([fzaninotto](https://github.com/fzaninotto))
+* Fix `<AutocompleteInput>` when used in standalone ([fzaninotto](https://github.com/fzaninotto))
+* Fix custom route action in simple example ([alexicum](https://github.com/alexicum))
+* Fix warning in Demo, in `<Link>` to filtered list ([fzaninotto](https://github.com/fzaninotto))
+* Fix edit icon in Demo, in product gridlist on smaller screens ([fzaninotto](https://github.com/fzaninotto))
+* Fix outdated `import` in Custom Theme documentation ([AkselsLedins](https://github.com/AkselsLedins))
+* Fix `WithPermissions` calling `setState` in async function ([djhi](https://github.com/djhi))
+* Fix error in `jsonserver` provider on Windows ([fzaninotto](https://github.com/fzaninotto))
+* Fix outdated theming doc ([fzaninotto](https://github.com/fzaninotto))
+* Fix multiple broken links in DataProviders doc ([alireza](https://github.com/alireza)-ahmadi)
+* Fix missing resource in ArrayInput iterator ([fzaninotto](https://github.com/fzaninotto))
+* Fix outdated mention of `aor-embedded-array` in Ecosystem doc ([vascofg](https://github.com/vascofg))
+
+## v2.0.3
+
+* Add Russian translation package to the docs ([fzaninotto](https://github.com/fzaninotto))
+* Add Indonesian translation package to the docs ([ronadi](https://github.com/ronadi))
+* Add media to demo dashboard to make it better-looking ([fzaninotto](https://github.com/fzaninotto))
+* Fix `<Labeled>` to correctly passe `<FormControl>` props for full width and validation ([djhi](https://github.com/djhi))
+* Fix `<ReferenceArrayInput>` and `<ReferenceInput>` so that the label correctly adds the * when required ([djhi](https://github.com/djhi))
+* Fix AutocompleteInput documentation refers to outdated mui doc ([fzaninotto](https://github.com/fzaninotto))
+* Fix mentions of REST client in the documentation ([fzaninotto](https://github.com/fzaninotto))
+* Fix logout button icon padding ([fzaninotto](https://github.com/fzaninotto))
+* Fix Bulk Actions button was clickable even with no row selected ([fzaninotto](https://github.com/fzaninotto))
+* Fix global validation on TabbedForm ([fzaninotto](https://github.com/fzaninotto))
+* Fix link for Saga debouncing doc ([dunglas](https://github.com/dunglas))
+* Fix warning in GraphQL data provider with `<ReferenceField>` ([byymster](https://github.com/byymster))
+
 ## v2.0.2
 
 * Fix bad lerna packaging ([fzaninotto](https://github.com/fzaninotto))
 
-## V2.0.1
+## v2.0.1
 
 * Add Spanish translation package to the docs ([JonatanSalas](https://github.com/JonatanSalas))
 * Fix `SelectArrayInput` `Chip` label should render same as selected menu item option ([jeromemacias](https://github.com/jeromemacias))

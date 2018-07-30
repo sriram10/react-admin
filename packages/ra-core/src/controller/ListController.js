@@ -125,10 +125,6 @@ export class ListController extends Component {
         return true;
     }
 
-    getBasePath() {
-        return this.props.location.pathname.replace(/\/$/, '');
-    }
-
     /**
      * Merge list params from 4 different sources:
      *   - the query string
@@ -142,14 +138,8 @@ export class ListController extends Component {
                 ? this.props.query
                 : { ...this.props.params };
         const filterDefaultValues = this.props.filterDefaultValues || {};
-        Object.keys(filterDefaultValues).forEach(name => {
-            if (!query.filter) {
-                query.filter = {};
-            }
-            if (!query.filter[name]) {
-                query.filter[name] = filterDefaultValues[name];
-            }
-        });
+
+        query.filter = { ...filterDefaultValues, ...query.filter };
 
         if (!query.sort) {
             query.sort = this.props.sort.field;
@@ -236,6 +226,7 @@ export class ListController extends Component {
 
     render() {
         const {
+            basePath,
             children,
             resource,
             hasCreate,
@@ -250,7 +241,6 @@ export class ListController extends Component {
         const query = this.getQuery();
 
         const queryFilterValues = query.filter || {};
-        const basePath = this.getBasePath();
 
         const resourceName = translate(`resources.${resource}.name`, {
             smart_count: 2,
@@ -306,6 +296,7 @@ ListController.propTypes = {
     }),
     // the props managed by react-admin
     authProvider: PropTypes.func,
+    basePath: PropTypes.string.isRequired,
     changeListParams: PropTypes.func.isRequired,
     crudGetList: PropTypes.func.isRequired,
     data: PropTypes.object, // eslint-disable-line react/forbid-prop-types
@@ -345,7 +336,7 @@ ListController.defaultProps = {
 const validQueryParams = ['page', 'perPage', 'sort', 'order', 'filter'];
 const getLocationPath = props => props.location.pathname;
 const getLocationSearch = props => props.location.search;
-const getQuery = createSelector(
+const selectQuery = createSelector(
     getLocationPath,
     getLocationSearch,
     (path, search) => {
@@ -368,7 +359,7 @@ function mapStateToProps(state, props) {
     const resourceState = state.admin.resources[props.resource];
 
     return {
-        query: getQuery(props),
+        query: selectQuery(props),
         params: resourceState.list.params,
         ids: resourceState.list.ids,
         selectedIds: resourceState.list.selectedIds,
@@ -381,12 +372,15 @@ function mapStateToProps(state, props) {
 }
 
 export default compose(
-    connect(mapStateToProps, {
-        crudGetList: crudGetListAction,
-        changeListParams: changeListParamsAction,
-        setSelectedIds: setListSelectedIdsAction,
-        toggleItem: toggleListItemAction,
-        push: pushAction,
-    }),
+    connect(
+        mapStateToProps,
+        {
+            crudGetList: crudGetListAction,
+            changeListParams: changeListParamsAction,
+            setSelectedIds: setListSelectedIdsAction,
+            toggleItem: toggleListItemAction,
+            push: pushAction,
+        }
+    ),
     translate
 )(ListController);

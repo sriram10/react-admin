@@ -39,6 +39,7 @@ const UserList = ({ permissions, ...props }) => (
     <List
         {...props}
         filters={<UserFilter permissions={permissions} />}
+        filterDefaultValues={{ role: 'user' }}
         sort={{ field: 'name', order: 'ASC' }}
     >
         <Responsive
@@ -46,7 +47,8 @@ const UserList = ({ permissions, ...props }) => (
                 <SimpleList
                     primaryText={record => record.name}
                     secondaryText={record =>
-                        permissions === 'admin' ? record.role : null}
+                        permissions === 'admin' ? record.role : null
+                    }
                 />
             }
             medium={

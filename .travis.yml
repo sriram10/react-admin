@@ -1,7 +1,7 @@
 language: node_js
 sudo: required
 node_js:
-  - '8.9.4'
+  - '10.5.0'
 addons:
   chrome: stable
 env:
@@ -19,6 +19,7 @@ before_install:
     - source ~/.bashrc
     - sh -e /etc/init.d/xvfb start
     - sleep 3
+script: make test
 branches:
   only:
     - master

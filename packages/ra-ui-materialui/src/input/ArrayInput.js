@@ -50,10 +50,12 @@ import sanitizeRestProps from './sanitizeRestProps';
  */
 export class ArrayInput extends Component {
     renderFieldArray = fieldProps => {
-        const { children, record } = this.props;
+        const { children, record, resource, source } = this.props;
         return cloneElement(children, {
             ...fieldProps,
             record,
+            resource,
+            source,
         });
     };
 
